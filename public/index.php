@@ -8,7 +8,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-/*switch ($ruta) {
+switch ($ruta) {
     case 'usuarios':
         require_once __DIR__ . '/../src/controlador/UsuarioControlador.php';
         listarUsuarios();
@@ -27,10 +27,10 @@ error_reporting(E_ALL);
         break;    
     default:
         echo "Ruta no válida.";
-}*/
 
-/*
-   switch ($ruta) {
+
+
+   
     case 'herramientas':
         require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
         listarHerramientas();
@@ -48,14 +48,30 @@ error_reporting(E_ALL);
         require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
         eliminarHerramienta();
         break;
-    default:
-        echo "Ruta no válida.";
-        break;
-   } 
-*/
+    
 
-switch ($ruta){
 
-        
+
+
+        case 'prestamos':
+            require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';
+            listarPrestamos();
+            break;
+        case 'crear_prestamo':
+            require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';   
+            crearPrestamo();
+            break;
+        case 'actualizar_prestamo':
+            require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';
+            actualizarPrestamo();
+            break;
+        case 'devolver_prestamo':
+            require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';
+            devolverPrestamo();
+            break;
+        case 'detalle_prestamo':
+            require_once __DIR__ . '/../src/controlador/DetallePrestamoControlador.php';
+            listarDetallePrestamo();
+            break;
 }
 ?>

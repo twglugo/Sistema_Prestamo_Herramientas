@@ -74,7 +74,28 @@
                 throw new Exception("Error al consultar la herramienta por ID: " . $e->getMessage());
             }
         }
-    
+        //Consulta  Nombre por stock disponible 
+
+        public function consultarHerramientasPorStock($pdo)
+        {
+            try {
+                $sql = "SELECT 
+                h.Herramienta_id,
+                h.Herramienta_Nombre, 
+                h.Herramienta_CantidadDisponible,
+                h.Herramienta_CantidadTotal
+            FROM 
+                herramientas AS h 
+            WHERE 
+                h.Herramienta_CantidadDisponible > 0;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+
+                throw new Exception("Error al consultar las herramientas por stock: " . $e->getMessage());
+            }
+        }
         //Crear Herramienta
 
         function crearHerramienta($pdo) {
