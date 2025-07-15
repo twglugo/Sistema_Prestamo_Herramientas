@@ -61,7 +61,7 @@
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } catch (\Throwable $th) {
+            } catch (PDOException $th) {
 
                 throw new Exception("Error al crear el usuario: " . $th->getMessage());
             }
@@ -77,7 +77,7 @@
                 $stmt->bindParam(':cedula', $this->cedula);
                 $stmt->execute();
                 return $stmt->fetch(PDO::FETCH_ASSOC);
-            } catch (\Throwable $th) {
+            } catch (PDOException  $th) {
                 
                 throw new Exception("Error al consultar el usuario por esa Cedula: " . $th->getMessage());
             }
@@ -97,7 +97,7 @@
                 $stmt->bindParam(':email', $this->email);
                 $stmt->bindParam(':rol', $this->rol);
                 return $stmt->execute();
-            } catch (\Throwable $th) {
+            } catch (PDOException  $th) {
                 
                 throw new Exception("Error al crear el usuario: " . $th->getMessage());
             }
@@ -118,7 +118,7 @@
                 $stmt->bindParam(':email', $this->email);
                 $stmt->bindParam(':rol', $this->rol);
                 return $stmt->execute();
-            } catch (\Throwable $th) {
+            } catch (PDOException  $th) {
                 
                 throw new Exception("Error al modificar el usuario: " . $th->getMessage());
             }
@@ -133,7 +133,7 @@
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':cedula', $this->cedula);
                 return $stmt->execute();
-            } catch (\Throwable $th) {
+            } catch (PDOException  $th) {
                 
                 throw new Exception("Error al eliminar el usuario: " . $th->getMessage());
             }

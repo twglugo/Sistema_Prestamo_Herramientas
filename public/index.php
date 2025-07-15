@@ -8,7 +8,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-switch ($ruta) {
+/*switch ($ruta) {
     case 'usuarios':
         require_once __DIR__ . '/../src/controlador/UsuarioControlador.php';
         listarUsuarios();
@@ -27,7 +27,35 @@ switch ($ruta) {
         break;    
     default:
         echo "Ruta no válida.";
-}
+}*/
 
-    
+/*
+   switch ($ruta) {
+    case 'herramientas':
+        require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
+        listarHerramientas();
+        break;
+    case 'crear_herramienta':
+        require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
+        crearHerramienta();
+        break;
+
+    case 'actualizar_herramienta':
+        require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
+        actualizarHerramienta();
+        break;
+    case 'eliminar_herramienta':
+        require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
+        eliminarHerramienta();
+        break;
+    default:
+        echo "Ruta no válida.";
+        break;
+   } 
+*/
+
+switch ($ruta){
+
+        
+}
 ?>

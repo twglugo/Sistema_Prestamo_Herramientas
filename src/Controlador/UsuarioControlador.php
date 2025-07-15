@@ -29,7 +29,7 @@ function crearUsuarios() {
         $email = $_POST['email'];
         $rol = $_POST['rol'];
 
-        $usuario = new Usuario($cedula, $nombre, $apellido, $email);
+        $usuario = new Usuario($cedula, $nombre, $apellido, $email, $rol);
         $usuario->setRol($rol);
 
         $resultado = $usuario->crearUsuario($pdo);
