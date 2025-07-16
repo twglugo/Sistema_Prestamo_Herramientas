@@ -110,7 +110,7 @@
         }
 
         //Crear detalle de préstamo
-        public function crearDetalle($pdo){
+        public function crearDetallePrestamo($pdo){
             try {
                 $sql = "INSERT INTO detalleprestamo (Prestamo_Id, Herramienta_Id, Cantidad) 
                 VALUES (:Prestamo_Id, :Herramienta_Id, :cantidad)";
@@ -124,7 +124,14 @@
             }
         }
     
+        // Consulta por id usuario
+
+        
     }
+
+    
+
+
 
 
 ?>

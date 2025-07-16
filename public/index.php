@@ -25,8 +25,7 @@ switch ($ruta) {
         require_once __DIR__ . '/../src/controlador/UsuarioControlador.php';
         eliminarUsuarios();
         break;    
-    default:
-        echo "Ruta no válida.";
+    
 
 
 
@@ -45,8 +44,14 @@ switch ($ruta) {
         actualizarHerramienta();
         break;
     case 'eliminar_herramienta':
-        require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
-        eliminarHerramienta();
+        try {
+            require_once __DIR__ . '/../src/controlador/HerramientasControlador.php';
+            eliminarHerramienta();
+        } catch (Exception $e) {
+            throw new Exception("Error al eliminar la herramienta: " . $e->getMessage());
+
+        }
+        
         break;
     
 
@@ -65,13 +70,16 @@ switch ($ruta) {
             require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';
             actualizarPrestamo();
             break;
-        case 'devolver_prestamo':
+        case 'devolver_todo':
             require_once __DIR__ . '/../src/controlador/PrestamoControlador.php';
-            devolverPrestamo();
+            devolverTodoPrestamo();
             break;
         case 'detalle_prestamo':
             require_once __DIR__ . '/../src/controlador/DetallePrestamoControlador.php';
             listarDetallePrestamo();
+    
             break;
+
+        
 }
 ?>

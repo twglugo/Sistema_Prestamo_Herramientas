@@ -1,27 +1,18 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const inputStock = document.getElementById('cantidadTotal');
+    const inputDisponible = document.getElementById('cantidadDisponible');
+    const mensajeError = document.getElementById('mensaje-error');
 
+    inputStock.addEventListener('input', function () {
+        const stock = parseInt(inputStock.value, 10);
 
-//Vaidacion de formulario para crear una nueva herramienta
-
-document.getElementById("formHerramienta").addEventListener("submit", function(e) {
-    const total = parseInt(document.getElementById("cantidadTotal").value);
-    const disponible = parseInt(document.getElementById("cantidadDisponible").value);
-
-    if (isNaN(total) || isNaN(disponible)) {
-        alert("Debe ingresar valores numéricos.");
-        e.preventDefault();
-        return;
-    }
-
-    if (total <= 0 || disponible < 0) {
-        alert("el stock debe ser mayor que cero y la disponible no puede ser negativa.");
-        e.preventDefault();
-        return;
-    }
-
-    if (disponible > total) {
-        alert("La cantidad disponible no puede ser mayor al stock.");
-        e.preventDefault();
-        return;
-    }
+        if (!isNaN(stock) && stock > 0) {
+            inputDisponible.value = stock;
+            mensajeError.textContent = '';
+        } else {
+            inputDisponible.value = '';
+            mensajeError.textContent = 'El stock debe ser un número mayor que 0.';
+            inputStock.value = ''; 
+        }
+    });
 });
-

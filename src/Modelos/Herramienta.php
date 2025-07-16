@@ -49,7 +49,7 @@
         }
         //Metodos De Consulta Bd
     
-        function consultarTodasHerramientas($pdo){
+        function consultarTodasHerramientas($pdo) {
             try {
                 $sql = "SELECT * FROM herramientas";
                 $stmt = $pdo->prepare($sql);
@@ -96,6 +96,27 @@
                 throw new Exception("Error al consultar las herramientas por stock: " . $e->getMessage());
             }
         }
+
+
+        //Consulta de stock de herramienta validador 
+
+        function consultarStockHerramienta($pdo)
+        {
+            try {
+                $sql = "SELECT 
+                Herramienta_CantidadTotal,
+                Herramienta_CantidadDisponible
+                FROM herramientas 
+                WHERE Herramienta_id = :herramientaId";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':herramientaId', $this->id);
+                $stmt->execute();
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+
+                throw new Exception("Error al consultar el stock de la herramienta: " . $e->getMessage());
+            }
+        }
         //Crear Herramienta
 
         function crearHerramienta($pdo) {
@@ -122,12 +143,32 @@
             }
         }
 
+
+        //Modificar al insertar detalle de prestamo -> actualizar stock herramienta
+        function actualizarStockHerramienta($pdo) {
+            try {
+                $sql = "UPDATE herramientas 
+                SET Herramienta_CantidadDisponible = Herramienta_CantidadDisponible - :cantidad 
+                WHERE Herramienta_id = :herramientaId";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':cantidad', $this->cantidadDisponible);
+                $stmt->bindParam(':herramientaId', $this->id);
+                return $stmt->execute();
+            } catch (PDOException $e) {
+
+                throw new Exception("Error al actualizar el stock de la herramienta: " . $e->getMessage());
+            }
+        }
         //Modificar Herramienta
 
         function modificarHerramienta($pdo) {
             try {
-                $sql = "UPDATE herramientas SET nombre = :nombre, descripcion = :descripcion, 
-                cantidad_total = :cantidadTotal, cantidad_disponible = :cantidadDisponible WHERE id = :id";
+                
+                $sql = "UPDATE herramientas SET Herramienta_Nombre = :nombre, 
+                Herramienta_Descrip = :descripcion, 
+                Herramienta_CantidadTotal = :cantidadTotal, 
+                Herramienta_CantidadDisponible = :cantidadDisponible 
+                WHERE Herramienta_id = :id";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':id', $this->id);
                 $stmt->bindParam(':nombre', $this->nombre);
@@ -138,6 +179,41 @@
             } catch (PDOException $e) {
 
                 throw new Exception("Error al modificar la herramienta: " . $e->getMessage());
+            }
+        }
+        //modificar stock herramienta por id 
+
+        public function modificarStockHerramienta($pdo) {
+            try {
+                $sql = "UPDATE herramientas 
+                SET Herramienta_CantidadDisponible = :cantidadDisponible 
+                WHERE Herramienta_id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id', $this->id);
+                $stmt->bindParam(':cantidadDisponible', $this->cantidadDisponible);
+                return $stmt->execute();
+            } catch (PDOException $e) {
+
+                throw new Exception("Error al modificar el stock de la herramienta: " . $e->getMessage());
+            }
+        }
+
+        //modificar stock y disponibilidad de herramienta por id
+
+        public function modificarStockYDisponibilidadHerramienta($pdo) {
+            try {
+                $sql = "UPDATE herramientas 
+                SET Herramienta_CantidadTotal = :cantidadTotal, 
+                Herramienta_CantidadDisponible = :cantidadDisponible 
+                WHERE Herramienta_id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id', $this->id);
+                $stmt->bindParam(':cantidadTotal', $this->cantidadTotal);
+                $stmt->bindParam(':cantidadDisponible', $this->cantidadDisponible);
+                return $stmt->execute();
+            } catch (PDOException $e) {
+
+                throw new Exception("Error al modificar el stock y disponibilidad de la herramienta: " . $e->getMessage());
             }
         }
 
@@ -160,7 +236,12 @@
     
     
     
-    
+        //Consultar por nombre
+        
+
+        
+
+        
     
     
     }

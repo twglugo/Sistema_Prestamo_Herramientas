@@ -54,7 +54,9 @@ class Prestamo {
     public function consultarTodosPrestamos($pdo) {
         try 
         {
-            $sql = "SELECT * FROM prestamos";
+            $sql = "SELECT p.*, u.Usuario_Nombre, u.Usuario_Apellido
+            FROM prestamos p 
+            INNER JOIN usuarios u ON p.Usuario_Cedula = u.Usuario_Cedula;";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);   
@@ -64,6 +66,35 @@ class Prestamo {
             throw new Exception("Error al consultar los préstamos: " . $e->getMessage());
         }
 
+    }
+    // Consultar un préstamo por ID join usuario join herramienta join detalle
+
+    public function consultarPrestamosConDetalles($pdo){
+        try {
+            $sql = "SELECT 
+            p.*, 
+            u.Usuario_Nombre, 
+            u.Usuario_Apellido, 
+            h.Herramienta_id, 
+            h.Herramienta_Nombre,
+            h.Herramienta_CantidadTotal,  
+            h.Herramienta_CantidadDisponible,
+            dp.Cantidad as prestado,
+            dp.idDetallePrestamo,
+            dp.Cantidad
+            FROM prestamos p 
+            INNER JOIN usuarios u ON p.Usuario_Cedula = u.Usuario_Cedula
+            INNER JOIN detalleprestamo dp ON p.Prestamos_Id = dp.Prestamo_Id 
+            INNER JOIN herramientas h ON h.Herramienta_id = dp.Herramienta_Id
+            where p.Prestamos_Id = :id";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $this->id);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Error al consultar los préstamos con detalles: " . $e->getMessage());
+        }
     }
 
     //Consultar un préstamo por ID
@@ -86,8 +117,8 @@ class Prestamo {
         {
             $sql = "UPDATE Prestamos 
             SET Usuario_Cedula = :usuarioCedula, 
-            Prestamo_Fecha_Pres = :fechaPrestamo, 
-            Prestamo_Fecha_Dev = :fechaDevolucion, 
+            Prestamo_FechaPres = :fechaPrestamo, 
+            Prestamo_FechaDev = :fechaDevolucion, 
             Prestamo_Estado = :estado
             WHERE Prestamos_Id = :id";
 
@@ -121,6 +152,27 @@ class Prestamo {
             }
         }    
     
-    }  
+    } 
+    
+    // Crear un nuevo préstamo
+    public function crearPrestamo($pdo) {
+        try {
+            $sql = "INSERT INTO prestamos (Usuario_Cedula, Prestamo_FechaPres, Prestamo_Estado) 
+            VALUES (:usuarioCedula, :fechaPrestamo, :estado)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':usuarioCedula', $this->usuarioCedula);
+            $stmt->bindParam(':fechaPrestamo', $this->fechaPrestamo);
+            $stmt->bindParam(':estado', $this->estado);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Error al crear el préstamo: " . $e->getMessage());
+        }   
+    }
+
+
+    
+
+
+    
 
 }

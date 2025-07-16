@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Nueva Prestamo</h1>
-    <form id="formPrestamo" method="POST" action="index.php?ruta=crear_prestamos">
+    <form id="formPrestamo" method="POST" action="index.php?ruta=crear_prestamo">
+
+        <input type="hidden" name="usuarioCedula" value="1000857460">
         
         <label>Herramienta </label><br><br>
 

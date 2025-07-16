@@ -96,7 +96,7 @@ function eliminarHerramienta() {
             header('Location: index.php?ruta=herramientas');
             exit;
         } catch (Exception $e) {
-            throw $e;
+            throw new Exception ($e);
         }
     } else {
         header('Location: index.php?ruta=herramientas');

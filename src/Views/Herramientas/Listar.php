@@ -25,6 +25,7 @@
                 <td><?= htmlspecialchars($herramienta['Herramienta_CantidadDisponible']) ?></td>
                 <td><a href="index.php?ruta=actualizar_herramienta&id=<?= htmlspecialchars($herramienta['Herramienta_id']) ?>">Actualizar</a></td>
                 <td><a href="index.php?ruta=eliminar_herramienta&id=<?= htmlspecialchars($herramienta['Herramienta_id']) ?>">Eliminar</a></td>
+                <!--<td><a href="index.php?ruta=devolver_todo&id=<?//= htmlspecialchars($herramienta['Herramienta_id']) ?>" onclick="return confirm('¿Seguro que quieres devolver todo el stock de esta herramienta?');">Devolver todo</a></td><!-->
             </tr>
         <?php endforeach; ?>
     </table>

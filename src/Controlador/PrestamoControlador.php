@@ -1,8 +1,13 @@
+
+
+
 <?php
 
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../modelos/prestamo.php';
 require_once __DIR__ . '/../modelos/herramienta.php';
+require_once __DIR__ . '/../modelos/DetallePrestamo.php';
+require_once __DIR__ . '/../Enums/EstadoPrestamo.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -27,23 +32,53 @@ function crearPrestamo()
     global $pdo;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Procesar el formulario
+        
         try {
-            $prestamo = new Prestamo(
-                null,
-                $_POST['usuarioCedula'],
-                $_POST['fechaPrestamo'],
-                $_POST['fechaDevolucion'],
-                'Activo'
-            );
-            $prestamo->crearPrestamo($pdo);
+            $pdo-> beginTransaction();
+            $herramientaId = $_POST['herramienta'];
+            $cantidad = $_POST['cantidad'];
+            $fechaPrestamo = $_POST['fechaPrestamo'];
+            $usuarioCedula = $_POST['usuarioCedula'];
 
-            
 
-            header('Location: index.php?ruta=prestamos');
+            $herramientas = new Herramienta($herramientaId, null, null, null, $cantidad);
+            $disponible = $herramientas->consultarStockHerramienta($pdo);
+
+
+            if ($disponible['Herramienta_CantidadDisponible'] < $cantidad) {
+                throw new Exception("No hay suficiente stock disponible para la herramienta seleccionada.");
+            }else{
+                $resultado = $herramientas->actualizarStockHerramienta($pdo);
+                if (!$resultado) {
+                    throw new Exception("Error al actualizar el stock de la herramienta.");
+                }else {
+                    $prestamo = new Prestamo(
+                        null,
+                        $usuarioCedula,
+                        $fechaPrestamo,
+                        null,
+                        EstadoPrestamo::Activo
+                    );
+                    $resultado = $prestamo->crearPrestamo($pdo);
+                    if (!$resultado) {
+                        throw new Exception("Error al crear el préstamo.");
+                    }else{
+                        $prestamoId = $pdo->lastInsertId();
+                        $detalle = new DetallePrestamo(null,$prestamoId, $herramientaId, $cantidad);
+                        $resultadoDetalle = $detalle->crearDetallePrestamo($pdo);
+                        if (!$resultadoDetalle) {
+                            throw new Exception("Error al insertar el detalle del préstamo.");
+                        }
+                    }
+
+                }
+            }
+            $pdo->commit();
+            header('Location: index.php?ruta=detalles_prestamos');
             exit;
         } catch (Exception $e) {
-            echo "Error al crear el préstamo: " . $e->getMessage();
+            $pdo->rollBack();
+            throw new Exception( "Error al crear el préstamo: " . $e->getMessage());
         }
 
     } else {
@@ -52,9 +87,11 @@ function crearPrestamo()
             $herramientaModel = new Herramienta(null, null, null, null, null);
             $herramientas = $herramientaModel->consultarTodasHerramientas($pdo);
 
+            //Futura cedula de rol ->.....................................
+
             require_once __DIR__ . '/../Views/Prestamos/CrearPrestamos.php';
         } catch (Exception $e) {
-            echo "Error al cargar herramientas: " . $e->getMessage();
+            throw new Exception  ("Error al cargar herramientas: " . $e->getMessage());
         }
     }
 }
@@ -66,17 +103,26 @@ function actualizarPrestamo()
 
     if (isset($_GET['id'])) {
         try {
+            
             $prestamo = new Prestamo($_GET['id'], null, null, null, null);
-            $resultado = $prestamo->consultarPrestamoPorId($pdo);
+            $resultados = $prestamo->consultarPrestamosConDetalles($pdo);
 
-            if ($resultado) {
-                $prestamo = new Prestamo(
-                    $resultado['Prestamos_Id'],
-                    $resultado['Usuario_Cedula'],
-                    $resultado['Prestamo_FechaPres'],
-                    $resultado['Prestamo_FechaDev'],
-                    $resultado['Prestamo_Estado']
+            if ($resultados && count($resultados) > 0) {
+                $resultadoIndex = $resultados[0];
+                $prestamoConsulta = new Prestamo(
+                    $resultadoIndex['Prestamos_Id'],
+                    $resultadoIndex['Usuario_Cedula'],
+                    $resultadoIndex['Prestamo_FechaPres'],
+                    $resultadoIndex['Prestamo_FechaDev'],
+                    $resultadoIndex['Prestamo_Estado']
                 );
+
+                // Obtener la cantidad prestada real desde el detalle del préstamo
+                $resultadoIndex['prestado'] = isset($resultadoIndex['Cantidad']) ? $resultadoIndex['Cantidad'] : (isset($resultadoIndex['prestado']) ? $resultadoIndex['prestado'] : 0);
+
+                require_once __DIR__ . '/../views/Prestamos/actualizarPrestamo.php';
+
+                
 
                 require_once __DIR__ . '/../views/Prestamos/actualizarPrestamo.php';
             } else {
@@ -90,20 +136,78 @@ function actualizarPrestamo()
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             try {
+                $pdo->beginTransaction();
+                $prestamoId = $_POST['id'];
+                $fechaPrestamo = $_POST['fechaPrestamo'];
+                $estado = $_POST['estado'];
+                $herramientaId = $_POST['herramientaId'];
+                $cantidad = $_POST['cantidad'];
+                $cantidadPrestada = $_POST['cantidadPrestadaFinal'];
+                $cantidadDisponibleTotal = $_POST['cantidadDisponibleFinal'];
+                $idDetallePrestamo = isset($_POST['idDetallePrestamo']) ? $_POST['idDetallePrestamo'] : null;
+
+                if($estado === 'Activo'){
+                    $fechaDevolucion = null;
+                }else{
+                    $fechaDevolucion = $_POST['fechaDevolucion'];
+                }
+                $usuarioCedula = $_POST['usuarioCedula'];
+
                 $prestamo = new Prestamo(
-                    $_POST['id'],
-                    $_POST['usuarioCedula'],
-                    $_POST['fechaPrestamo'],
-                    $_POST['fechaDevolucion'],
-                    $_POST['estado']
+                    $prestamoId,
+                    $usuarioCedula,
+                    $fechaPrestamo,
+                    $fechaDevolucion,
+                    $estado
                 );
-                $prestamo->modificarPrestamo($pdo);
+
+                $resultado = $prestamo->modificarPrestamo($pdo);
+                if (!$resultado) {
+                    throw new Exception("Error al modificar el préstamo.");
+                }
+
+                // Validar que la cantidad disponible no sea negativa
+                if ($cantidadDisponibleTotal < 0) {
+                    throw new Exception("La cantidad disponible no puede ser negativa.");
+                }
+
+                // Actualizar el stock de la herramienta usando el valor final
+                $herramienta = new Herramienta(
+                    $herramientaId,
+                    null,
+                    null,
+                    null,
+                    $cantidadDisponibleTotal
+                );
+                $resultadoHerramienta = $herramienta->modificarStockHerramienta($pdo);
+                if (!$resultadoHerramienta) {
+                    throw new Exception("Error al actualizar el stock de la herramienta.");
+                }
+
+                // Actualizar el detalle del préstamo con el id correcto y la cantidad final
+                if ($idDetallePrestamo) {
+                    $detalle = new DetallePrestamo(
+                        $idDetallePrestamo,
+                        $prestamoId,
+                        $herramientaId,
+                        $cantidadPrestada
+                    );
+                    $resultadoDetalle = $detalle->modificarDetalle($pdo);
+                    if (!$resultadoDetalle) {
+                        throw new Exception("Error al modificar el detalle del préstamo.");
+                    }
+                }
+
+                $pdo->commit();
                 header('Location: index.php?ruta=prestamos');
                 exit;
             } catch (Exception $e) {
+                $pdo->rollBack();
                 throw $e;
             }
         } else {
+
+            
             header('Location: index.php?ruta=prestamos');
             exit;
         }
@@ -123,6 +227,53 @@ function devolverPrestamo()
             exit;
         } catch (Exception $e) {
             throw $e;
+        }
+    } else {
+        header('Location: index.php?ruta=prestamos');
+        exit;
+    }
+}
+
+
+
+Function devolverTodoPrestamo()
+{
+    global $pdo;
+    if (isset($_GET['id'])) {
+        $prestamoId = $_GET['id'];
+        try {
+            $pdo->beginTransaction();
+            // Consultar todos los detalles del préstamo
+            $sql = "SELECT dp.*, h.Herramienta_CantidadTotal FROM detalleprestamo dp INNER JOIN herramientas h ON dp.Herramienta_Id = h.Herramienta_id WHERE dp.Prestamo_Id = :prestamoId";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':prestamoId', $prestamoId);
+            $stmt->execute();
+            $detalles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$detalles) {
+                throw new Exception('No hay detalles para este préstamo.');
+            }
+            // Para cada herramienta asociada al préstamo, devolver todo
+            foreach ($detalles as $detalle) {
+                // Actualizar detalleprestamo: cantidad = 0
+                $detalleObj = new DetallePrestamo($detalle['idDetallePrestamo'], $prestamoId, $detalle['Herramienta_Id'], 0);
+                $detalleObj->modificarDetalle($pdo);
+                // Actualizar herramienta: disponible = total
+                $herramientaObj = new Herramienta($detalle['Herramienta_Id'], null, null, $detalle['Herramienta_CantidadTotal'], $detalle['Herramienta_CantidadTotal']);
+                $herramientaObj->modificarStockYDisponibilidadHerramienta($pdo);
+            }
+            // Actualizar préstamo: estado = Devuelto
+            $sql = "UPDATE prestamos SET Prestamo_Estado = 'Devuelto', Prestamo_FechaDev = :fechaDev WHERE Prestamos_Id = :prestamoId";
+            $stmt = $pdo->prepare($sql);
+            $fechaDev = date('Y-m-d');
+            $stmt->bindParam(':fechaDev', $fechaDev);
+            $stmt->bindParam(':prestamoId', $prestamoId);
+            $stmt->execute();
+            $pdo->commit();
+            header('Location: index.php?ruta=prestamos');
+            exit;
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            echo 'Error al devolver todo el préstamo: ' . $e->getMessage();
         }
     } else {
         header('Location: index.php?ruta=prestamos');

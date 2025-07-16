@@ -17,14 +17,16 @@
         <input type="text" name="descripcion" required><br><br>
 
         <label>Stock:</label>
-        <input id = "cantidadTotal" type="number" name="stock" required><br><br>
+        <input id = "cantidadTotal" type="number" name="stock" required>
+         <span id="mensaje-error" style="color: red;"></span><br><br>
+
         
         <label>Cantidad Disponible:</label>
-        <input id="cantidadDisponible" type="number" name="cantidadDisponible" required><br><br>
+        <input id="cantidadDisponible" type="number" name="cantidadDisponible" readonly><br><br>
         
 
         <button type="submit">Guardar</button>
     </form>
-    <script src="assets/js/herramientas.js"></script>
+    <script src="assets/js/Herramientas.js"></script>
 </body>
 </html>
