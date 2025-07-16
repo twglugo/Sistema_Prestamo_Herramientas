@@ -97,6 +97,57 @@ class Prestamo {
         }
     }
 
+    //Consulta totalizados con detalles -> usuario, herramienta, detalle
+    public function consultarPrestamosTotalizadosConDetalles($pdo){
+        try {
+            $sql = "SELECT 
+            p.*, 
+            u.Usuario_Nombre, 
+            u.Usuario_Apellido, 
+            h.Herramienta_id, 
+            h.Herramienta_Nombre,
+            h.Herramienta_CantidadTotal,  
+            h.Herramienta_CantidadDisponible,
+            dp.Cantidad as prestado,
+            dp.idDetallePrestamo,
+            dp.Cantidad
+            FROM prestamos p 
+            INNER JOIN usuarios u ON p.Usuario_Cedula = u.Usuario_Cedula
+            INNER JOIN detalleprestamo dp ON p.Prestamos_Id = dp.Prestamo_Id 
+            INNER JOIN herramientas h ON h.Herramienta_id = dp.Herramienta_Id";
+
+            $stmt = $pdo->prepare($sql);
+            
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Error al consultar los préstamos con detalles: " . $e->getMessage());
+        }
+    }
+    //consultar prestamos por usuario
+    public function consultarPrestamosPorUsuario($pdo) {
+        global $pdo;
+        try {
+            $sql = "SELECT p.*, u.Usuario_Nombre, u.Usuario_Apellido, 
+            dp.Cantidad, 
+            h.Herramienta_Nombre
+            FROM prestamos p 
+            INNER JOIN usuarios u ON p.Usuario_Cedula = u.Usuario_Cedula 
+            INNER JOIN detalleprestamo dp ON p.Prestamos_Id = dp.Prestamo_Id 
+            INNER JOIN herramientas h on h.Herramienta_id = dp.Herramienta_Id
+            WHERE p.Usuario_Cedula = :cedula";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':cedula', $this->usuarioCedula);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Error al consultar los préstamos por usuario: " . $e->getMessage());
+        }
+
+
+
+
+    }
     //Consultar un préstamo por ID
     public function consultarPrestamoPorId($pdo) {
         try 
@@ -169,7 +220,21 @@ class Prestamo {
         }   
     }
 
-
+    //actualizar estado y fecha de devolución por id prestamo
+    public function actualizarEstadoYFechaDevolucion($pdo) {
+        try {
+            $sql = "UPDATE prestamos 
+            SET Prestamo_Estado = :estado, Prestamo_FechaDev = :fechaDev 
+            WHERE Prestamos_Id = :prestamoId";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':estado', $this->estado);
+            $stmt->bindParam(':fechaDev', $this->fechaDevolucion);
+            $stmt->bindParam(':prestamoId', $this->id);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Error al actualizar el estado y fecha de devolución del préstamo: " . $e->getMessage());
+        }
+    }
     
 
 

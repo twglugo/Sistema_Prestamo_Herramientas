@@ -31,7 +31,7 @@ function crearHerramienta() {
                 $_POST['cantidadDisponible']
             );
             $herramienta->crearHerramienta($pdo);
-            header('Location: index.php?ruta=herramientas');
+            header('Location: index.php?ruta=dashboard_admin');
         } catch (Exception $e) {
             throw $e;
         }
@@ -55,7 +55,7 @@ function actualizarHerramienta() {
                 $_POST['cantidadDisponible']
             );
             $herramienta->modificarHerramienta($pdo);
-            header('Location: index.php?ruta=herramientas');
+            header('Location: index.php?ruta=dashboard_admin');
             exit;
         } catch (Exception $e) {
             throw $e;

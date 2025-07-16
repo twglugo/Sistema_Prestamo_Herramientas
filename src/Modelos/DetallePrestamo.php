@@ -124,7 +124,25 @@
             }
         }
     
-        // Consulta por id usuario
+        // Consulta por prestamo
+
+        public function consultarDetallesPorPrestamoId($pdo) {
+            try {
+                $sql = "SELECT dp.*, h.Herramienta_CantidadTotal,
+                        h.Herramienta_CantidadDisponible
+                 FROM detalleprestamo dp 
+                 INNER JOIN herramientas h ON dp.Herramienta_Id = h.Herramienta_id 
+                 INNER JOIN prestamos p ON dp.Prestamo_Id = p.Prestamos_Id
+                 WHERE dp.Prestamo_Id = :prestamoId AND  p.Prestamo_Estado = 'Activo'";
+                ;
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':prestamoId', $this->Prestamo_Id);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                throw new Exception("Error al consultar los detalles del préstamo: " . $e->getMessage());
+            }
+        }
 
         
     }

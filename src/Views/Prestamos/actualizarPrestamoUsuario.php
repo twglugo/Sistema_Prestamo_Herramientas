@@ -1,9 +1,6 @@
 <?php $hoy = date('Y-m-d') ;
     session_start();
-    if (!isset($_SESSION['usuario']) || strtolower($_SESSION['rol']) !== 'admin') {
-        header('Location: index.php?ruta=login');
-        exit;
-    }
+    
 
 
 
@@ -111,14 +108,14 @@
 
         <h1>Modificar Préstamo de Cliente <?= htmlspecialchars($nombreUsuario) ?> </h1>
 
-        <a href="index.php?ruta=dashboard_admin" style="display:block;margin-bottom:18px;text-align:center;text-decoration:none;">
+        <a href="index.php?ruta=dashboard_usuario" style="display:block;margin-bottom:18px;text-align:center;text-decoration:none;">
             <button type="button" 
             style="width:100%;background:linear-gradient(90deg,#28a745 0%,#218838 100%);color:#fff;border:none;border-radius:6px;padding:10px 0;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 1px 4px
                 #28a74533;transition:background 0.2s,box-shadow 0.2s,transform 0.1s;
                 margin-bottom:10px;">&#8592; Volver al Dashboard</button>
         </a>
 
-        <form id="formHerramienta" method="POST" action="index.php?ruta=actualizar_prestamo">
+        <form id="formHerramienta" method="POST" action="index.php?ruta=actualizar_prestamo_usuario">
             <input type="hidden" name="id" value="<?= $prestamoConsulta->getId() ?>">
             <input type="hidden" name="herramientaId" value="<?= $herramientaId ?>">
             <input type="hidden" name="usuarioCedula" value="<?= $prestamoConsulta->getUsuarioCedula()?>">
@@ -127,10 +124,10 @@
             <input type="hidden" name="idDetallePrestamo" value="<?= $resultado['idDetallePrestamo'] ?? '' ?>">
 
             <label for="fechaPrestamo">Fecha Préstamo</label>
-            <input type="date" value="<?= $prestamoConsulta->getFechaPrestamo() ?>" max="<?= $hoy ?>" name="fechaPrestamo" id="fechaPrestamo" required>
+            <input type="date" value="<?= $prestamoConsulta->getFechaPrestamo() ?>" name="fechaPrestamo" id="fechaPrestamo" readonly>
 
             <label for="estado">Estado</label>
-            <select name="estado" id="estado" required onchange="toggleFechaDevolucion()">
+            <select name="estado" id="estado" disabled>
                 <option value="Activo" <?= $prestamoConsulta->getEstado() === 'Activo' ? 'selected' : '' ?>>Activo</option>
                 <option value="Devuelto" <?= $prestamoConsulta->getEstado() === 'Devuelto' ? 'selected' : '' ?>>Devuelto</option>
             </select>
@@ -158,10 +155,9 @@
 
             <div class="radio-group">
                 <label><input type="radio" name="logicaHerramienta" value="restar" checked> Restar</label>
-                <label><input type="radio" name="logicaHerramienta" value="sumar"> Sumar</label>
             </div>
 
-            <label for="cantidad">Digita la cantidad que vas a <span id="mensaje-info"></span></label>
+            <label for="cantidad">Digita la cantidad que vas a entregar </label>
             <input type="number" name="cantidad" id="cantidad"
                 value="<?= $cantidadPrestada ?>"
                 min="1"
@@ -171,11 +167,13 @@
                 data-disponible="<?= $cantidadDisponible ?>"
                 data-total="<?= $cantidadTotal ?>"
             >
+
+            <span id="mensaje-info" style="display:none"></span>
             <span id="mensaje-error" class="error"></span>
 
             <button id="boton-submit" type="submit" onclick="probarValores()" >Guardar</button>
         </form>
     </div>
-    <script src="assets/js/Prestamos.js"></script>
+    <script src="assets/js/PrestamoUsuario.js"></script>
 </body>
 </html>

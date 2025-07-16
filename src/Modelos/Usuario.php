@@ -68,6 +68,8 @@
             
         }
 
+    
+
         /// Consulta por cedula
 
         public function consultarUsuarioPorCedula($pdo) {
@@ -141,7 +143,23 @@
         }
 
 
-        
+        //loggear
+
+        function loggear($pdo) {
+            try {
+                
+                $sql = "SELECT u.Usuario_Cedula, u.Usuario_Rol FROM usuarios u  WHERE u.Usuario_Cedula = :cedula AND u.Usuario_Email = :email";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':cedula', $this->cedula);
+                $stmt->bindParam(':email', $this->email);
+                $stmt->execute();
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (PDOException  $th) {
+                
+                throw new Exception("Error al loggear el usuario: " . $th->getMessage());
+            }
+            
+        }
     
     
     
