@@ -18,6 +18,12 @@ El sistema se encuentra desplegado y puede consultarse en AWS en la siguiente di
 
 [http://3.16.158.13/Sistema_Prestamo_Herramientas/public/](http://3.16.158.13/Sistema_Prestamo_Herramientas/public/)
 
+## Modelo entidad-relación
+
+A continuación se muestra el diagrama entidad-relación principal del sistema:
+
+![Diagrama ER](utils/diagrama-er.png)
+
 ## Estructura del proyecto
 
 - `src/Modelos/`: Modelos de datos principales (`Herramienta`, `Prestamo`, `DetallePrestamo`).
