@@ -1,5 +1,5 @@
 <?php $hoy = date('Y-m-d'); 
-session_start();
+
 
 ?>
 <!DOCTYPE html>

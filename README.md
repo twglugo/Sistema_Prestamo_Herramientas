@@ -26,7 +26,7 @@ A continuación se muestra el diagrama entidad-relación principal del sistema:
 
 ## Estructura del proyecto
 
-- `src/Modelos/`: Modelos de datos principales (`Herramienta`, `Prestamo`, `DetallePrestamo`).
+- `src/Modelos/`: Modelos de datos principales (`Usuario`,`Herramienta`, `Prestamo`, `DetallePrestamo`).
 - `src/Controlador/`: Lógica de negocio y controladores para herramientas y préstamos.
 - `public/assets/js/`: Scripts de JavaScript para validaciones y lógica del frontend.
 - `config/db.php`: Configuración de la base de datos.
@@ -57,6 +57,8 @@ A continuación se muestra el diagrama entidad-relación principal del sistema:
 - **Backend:** PHP (POO)
 - **Frontend:** JavaScript, HTML, CSS
 - **Base de datos:** MySQL
+- **Servidor:** Apache 
+- **Despliegue:** AWS AC3 Ububntu/Unix
 
 ## Contribuciones
 

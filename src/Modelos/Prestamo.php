@@ -167,7 +167,7 @@ class Prestamo {
     public function modificarPrestamo($pdo) {
         try 
         {
-            $sql = "UPDATE Prestamos 
+            $sql = "UPDATE prestamos 
             SET Usuario_Cedula = :usuarioCedula, 
             Prestamo_FechaPres = :fechaPrestamo, 
             Prestamo_FechaDev = :fechaDevolucion, 

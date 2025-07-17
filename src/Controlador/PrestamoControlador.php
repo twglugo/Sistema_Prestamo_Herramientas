@@ -30,6 +30,7 @@ function listarPrestamos()
 //Creacion de prestamo insert -> detalles , validacion stock -> insert prestamo 
 function crearPrestamo()
 {
+    session_start();
     global $pdo;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -76,10 +77,10 @@ function crearPrestamo()
             }
             $pdo->commit();
             // Redirigir según el rol en sesión
-            if (isset($_SESSION['Usuario_Rol']) && strtolower($_SESSION['Usuario_Rol']) === 'admin') {
-                header('Location: index.php?ruta=dashboard_usuario');
-            } else {
+            if (isset($_SESSION['rol']) && strtolower($_SESSION['rol']) === 'admin') {
                 header('Location: index.php?ruta=dashboard_admin');
+            } else {
+                header('Location: index.php?ruta=dashboard_usuario');
             }
             exit;
         } catch (Exception $e) {
