@@ -22,7 +22,7 @@ El sistema se encuentra desplegado y puede consultarse en AWS en la siguiente di
 
 A continuación se muestra el diagrama entidad-relación principal del sistema:
 
-![Diagrama ER](utils/diagrama-er.PNG)
+![Diagrama ER](utils/diagramaModeloEntidad.PNG)
 
 ## Estructura del proyecto
 
