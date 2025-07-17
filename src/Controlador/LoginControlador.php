@@ -1,7 +1,7 @@
 
 <?php 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/usuario.php';
+require_once __DIR__ . '/../Modelos/Usuario.php';
 
 function login() {
     

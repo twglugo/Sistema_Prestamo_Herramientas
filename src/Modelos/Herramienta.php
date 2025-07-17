@@ -51,7 +51,7 @@
     
         function consultarTodasHerramientas($pdo) {
             try {
-                $sql = "SELECT * FROM herramientas";
+                $sql = "SELECT * FROM herramientas order by Herramienta_CantidadDisponible DESC";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);

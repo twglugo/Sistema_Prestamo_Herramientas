@@ -119,7 +119,13 @@
                         <strong><?= $fechaLabel ?>:</strong> <?= $fechaValor ?>
                     </td>
                     <td><?= htmlspecialchars($prestamo['Prestamo_Estado']) ?></td>
-                    <td class="action-cell"><a href="index.php?ruta=actualizar_prestamo&id=<?= htmlspecialchars($prestamo['Prestamos_Id']) ?>" class="action-btn">&#9998; Actualizar</a></td>
+                    <td class="action-cell">
+                        <?php if ($prestamo['Prestamo_Estado'] !== 'Devuelto'): ?>
+                            <a href="index.php?ruta=actualizar_prestamo&id=<?= htmlspecialchars($prestamo['Prestamos_Id']) ?>" class="action-btn">&#9998; Actualizar</a>
+                        <?php else: ?>
+                            <span style="color:#888;font-weight:bold;">Ya devuelto</span>
+                        <?php endif; ?>
+                    </td>
 
                 </tr>
             <?php endforeach; ?>

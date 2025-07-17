@@ -4,10 +4,10 @@
 <?php
 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/prestamo.php';
-require_once __DIR__ . '/../modelos/herramienta.php';
-require_once __DIR__ . '/../modelos/usuario.php';
-require_once __DIR__ . '/../modelos/DetallePrestamo.php';
+require_once __DIR__ . '/../Modelos/Prestamo.php';
+require_once __DIR__ . '/../Modelos/Herramienta.php';
+require_once __DIR__ . '/../Modelos/Usuario.php';
+require_once __DIR__ . '/../Modelos/DetallePrestamo.php';
 require_once __DIR__ . '/../Enums/EstadoPrestamo.php';
 
 ini_set('display_errors', 1);
@@ -21,7 +21,7 @@ function listarPrestamos()
     try {
         $prestamo = new Prestamo(null, null, null, null, null);
         $prestamos = $prestamo->consultarTodosPrestamos($pdo);
-        require_once __DIR__ . '/../views/Prestamos/listar.php';
+        require_once __DIR__ . '/../Views/Prestamos/listar.php';
     } catch (Exception $e) {
         throw $e;
     }
@@ -127,11 +127,11 @@ function actualizarPrestamo()
                 // Obtener la cantidad prestada real desde el detalle del préstamo
                 $resultadoIndex['prestado'] = isset($resultadoIndex['Cantidad']) ? $resultadoIndex['Cantidad'] : (isset($resultadoIndex['prestado']) ? $resultadoIndex['prestado'] : 0);
 
-                require_once __DIR__ . '/../views/Prestamos/actualizarPrestamo.php';
+                require_once __DIR__ . '/../Views/Prestamos/actualizarPrestamo.php';
 
                 
 
-                require_once __DIR__ . '/../views/Prestamos/actualizarPrestamo.php';
+                require_once __DIR__ . '/../Views/Prestamos/actualizarPrestamo.php';
             } else {
                 header('Location: index.php?ruta=prestamos');
                 exit;
@@ -352,7 +352,7 @@ function actualizarPrestamoUsuario()
                 // cantidad prestada actual = detalleprestamo.Cantidad
                 $resultadoIndex['prestado'] = isset($resultadoIndex['Cantidad']) ? $resultadoIndex['Cantidad'] : 0;
                 // cantidad disponible actual = herramienta.Herramienta_CantidadDisponible
-                require_once __DIR__ . '/../views/Prestamos/actualizarPrestamoUsuario.php';
+                require_once __DIR__ . '/../Views/Prestamos/actualizarPrestamoUsuario.php';
             } else {
                 header('Location: index.php?ruta=dashboard_usuario');
                 exit;

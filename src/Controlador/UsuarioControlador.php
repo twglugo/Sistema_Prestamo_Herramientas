@@ -1,10 +1,10 @@
 
 <?php
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/Usuario.php';
+require_once __DIR__ . '/../Modelos/Usuario.php';
 
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    
 }
 
 ini_set('display_errors', 1);
@@ -20,7 +20,7 @@ function listarUsuarios() {
     $usuarios = $usuario->consultarTodosUsuario($pdo);
 
     
-    require_once __DIR__ . '/../views/Usuarios/Listar.php';
+    require_once __DIR__ . '/../Views/Usuarios/Listar.php';
 }
 
 
@@ -51,14 +51,15 @@ function crearUsuarios() {
             $mensaje = "Error: Cedula ya registrada"  ;
             
         }
-        require_once __DIR__ . '/../views/usuarios/crearUsuario.php';
+        require_once __DIR__ . '/../Views/Usuarios/CrearUsuario.php';
     } else {
-        require_once __DIR__ . '/../views/usuarios/crearUsuario.php';
+        require_once __DIR__ . '/../Views/Usuarios/CrearUsuario.php';
     }
 }
 
 function actualizarUsuarios() {
     global $pdo;
+    session_start();
     try {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cedula = $_POST['cedula'];
@@ -97,11 +98,12 @@ function actualizarUsuarios() {
                     $resultado['Usuario_Email'],
                     $resultado['Usuario_Rol']
                 );
-                require_once __DIR__ . '/../views/usuarios/actualizarUsuario.php';
+                require_once __DIR__ . '/../Views/Usuarios/actualizarUsuario.php';
                 return;
             }
         }
         // Si no hay cédula válida, redirigir según el rol
+        
         if (isset($_SESSION['Usuario_Rol']) && strtolower($_SESSION['Usuario_Rol']) === 'usuario') {
             Header("Location: index.php?ruta=dashboard_usuario");
             exit;

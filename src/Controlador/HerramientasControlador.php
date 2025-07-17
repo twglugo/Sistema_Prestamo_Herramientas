@@ -1,7 +1,7 @@
 <?php 
 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/Herramienta.php';
+require_once __DIR__ . '/../Modelos/Herramienta.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -13,7 +13,7 @@ function listarHerramientas() {
     try {
         $herramienta = new Herramienta(null, null, null, null, null);
         $herramientas = $herramienta->consultarTodasHerramientas($pdo);
-        require_once __DIR__ . '/../views/Herramientas/Listar.php';
+        require_once __DIR__ . '/../Views/Herramientas/Listar.php';
     } catch (exception $e) {
         throw $e;    
     }
@@ -36,7 +36,7 @@ function crearHerramienta() {
             throw $e;
         }
     } else {
-        require_once __DIR__ . '/../views/Herramientas/CrearHerramienta.php';
+        require_once __DIR__ . '/../Views/Herramientas/CrearHerramienta.php';
     }
 
 
@@ -74,7 +74,7 @@ function actualizarHerramienta() {
                     $resultado['Herramienta_CantidadDisponible']
                 );
 
-                require_once __DIR__ . '/../views/Herramientas/actualizarHerramienta.php';
+                require_once __DIR__ . '/../Views/Herramientas/actualizarHerramienta.php';
             } else {
                 header('Location: index.php?ruta=herramientas');
                 exit;

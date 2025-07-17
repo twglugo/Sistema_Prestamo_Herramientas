@@ -1,6 +1,6 @@
 <?php 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/DetallePrestamo.php';
+require_once __DIR__ . '/../Modelos/DetallePrestamo.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -11,5 +11,5 @@ function listarDetallePrestamo() {
     global $pdo;
     $detalle = new DetallePrestamo(null, null, null, null);
     $detalles = $detalle->consultarDetalles($pdo);
-    require_once __DIR__ . '/../views/DetallePrestamo/listar.php';
+    require_once __DIR__ . '/../Views/DetallePrestamo/listar.php';
 }

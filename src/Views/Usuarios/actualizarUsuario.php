@@ -65,10 +65,9 @@
     <div class="form-container">
         <h1>Actualizar Usuario: <?= htmlspecialchars($usuario->getNombre())?></h1>
         <?php
-            
             $rutaDashboard = 'dashboard';
-            if (isset($_SESSION['rol'])) {
-                $rol = strtolower($_SESSION['rol']);
+            if (isset($_SESSION['Usuario_Rol'])) {
+                $rol = strtolower($_SESSION['Usuario_Rol']);
                 if ($rol === 'admin') {
                     $rutaDashboard = 'dashboard_admin';
                 } elseif ($rol === 'usuario') {

@@ -114,7 +114,8 @@ class Prestamo {
             FROM prestamos p 
             INNER JOIN usuarios u ON p.Usuario_Cedula = u.Usuario_Cedula
             INNER JOIN detalleprestamo dp ON p.Prestamos_Id = dp.Prestamo_Id 
-            INNER JOIN herramientas h ON h.Herramienta_id = dp.Herramienta_Id";
+            INNER JOIN herramientas h ON h.Herramienta_id = dp.Herramienta_Id 
+            ORDER BY p.Prestamo_Estado asc";
 
             $stmt = $pdo->prepare($sql);
             

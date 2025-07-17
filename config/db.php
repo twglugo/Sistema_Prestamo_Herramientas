@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'SistemaGestionPrestamos';
+$dbname = 'sistemagestionprestamos';
 $user = 'root';
 $password = '1234';
 

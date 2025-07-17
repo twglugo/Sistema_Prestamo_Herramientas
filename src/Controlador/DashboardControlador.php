@@ -2,10 +2,10 @@
 <?php 
 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../modelos/Usuario.php';
-require_once __DIR__ . '/../modelos/Herramienta.php';
-require_once __DIR__ . '/../modelos/prestamo.php';
-require_once __DIR__ . '/../modelos/DetallePrestamo.php';
+require_once __DIR__ . '/../Modelos/Usuario.php';
+require_once __DIR__ . '/../Modelos/Herramienta.php';
+require_once __DIR__ . '/../Modelos/Prestamo.php';
+require_once __DIR__ . '/../Modelos/DetallePrestamo.php';
 
 
 function dashboardAdmin() {
@@ -17,7 +17,7 @@ function dashboardAdmin() {
 
     global $pdo;
     
-    $usuarioModel = new Usuario($usuarioCedula, null, null, null, null);
+    $usuarioModel = new Usuario(null, null, null, null, null);
     $usuarios = $usuarioModel->consultarTodosUsuario($pdo);
 
     $herramientaModel = new Herramienta(null, null, null, null, null);

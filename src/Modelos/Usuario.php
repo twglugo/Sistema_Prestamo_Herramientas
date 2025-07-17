@@ -57,7 +57,7 @@
 
         public function consultarTodosUsuario($pdo){
             try {
-                $sql = "SELECT * FROM usuarios";
+                $sql = "SELECT * FROM usuarios order by Usuario_Rol";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
