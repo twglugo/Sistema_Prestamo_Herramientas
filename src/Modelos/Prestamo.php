@@ -237,7 +237,85 @@ class Prestamo {
         }
     }
     
+    // filtrar
 
+    function buscarPrestamo ($pdo, $prestamoRequerido){
+        try {
+            
+            $concatenarQuery = [];
+            $sql = "SELECT 
+                        p.Prestamos_Id, 
+                        p.Prestamo_FechaPres,
+                        p.Prestamo_FechaDev,
+                        p.Prestamo_Estado, 
+                        u.Usuario_Nombre,
+                        u.Usuario_Apellido,
+                        h.Herramienta_Nombre,
+                        h.Herramienta_CantidadTotal,
+                        h.Herramienta_CantidadDisponible,
+                        dp.Cantidad,
+                        dp.idDetallePrestamo
+                        FROM prestamos p
+                        INNER JOIN usuarios u 
+                        ON u.Usuario_Cedula = p.Usuario_Cedula
+                        INNER JOIN detalleprestamo dp
+                        ON dp.Prestamo_Id = p.Prestamos_Id
+                        INNER JOIN herramientas h
+                        ON h.Herramienta_id = dp.Herramienta_Id
+                    WHERE 0=0";
+            
+            if (!empty($prestamoRequerido['rol']) && $prestamoRequerido['rol'] === 'usuario') {
+                $sql .= " AND u.Usuario_Cedula = :usuarioCedula";
+                $concatenarQuery[':usuarioCedula'] = $prestamoRequerido['usuarioCedula'];
+            }
+            if (!empty($prestamoRequerido['usuarioCedula'])) {
+                $sql .= " AND u.Usuario_Cedula = :usuarioCedula";
+                $concatenarQuery[':usuarioCedula'] = $prestamoRequerido['usuarioCedula'];
+            }
+            if(!empty($prestamoRequerido['usuario'])) {
+                $sql .= " AND u.Usuario_Nombre = :usuarioNombre";
+                $concatenarQuery['usuarioNombre'] = $prestamoRequerido['usuario'];
+
+            }
+            if(!empty($prestamoRequerido['herramientaId'])) {
+                $sql .= " AND h.Herramienta_id = :herramientaId";
+                $concatenarQuery[':herramientaId'] = $prestamoRequerido['herramientaId'];
+            }
+            if(!empty($prestamoRequerido['estado'])) {
+                $sql .= " AND p.Prestamo_Estado = :estado";
+                $concatenarQuery[':estado'] = $prestamoRequerido['estado'];
+            }
+            if(!empty($prestamoRequerido['cantidadPrestada'])) {
+                $sql .= " AND dp.cantidad = :cantidadPrestada";
+                $concatenarQuery[':cantidadPrestada'] = $prestamoRequerido['cantidadPrestada'];
+            }
+            if(!empty($prestamoRequerido['fechaPrestamo'])) {
+                $sql .= " AND p.Prestamo_FechaPres = :fechaPrestamo";
+                $concatenarQuery[':fechaPrestamo'] = $prestamoRequerido['fechaPrestamo'];
+            }
+            if(!empty($prestamoRequerido['fechaDevolucion'])) {
+                $sql .= " AND p.Prestamo_FechaDev = :fechaDevolucion";
+                $concatenarQuery[':fechaDevolucion'] = $prestamoRequerido['fechaDevolucion'];
+            }
+            if(empty($concatenarQuery) ) {
+                
+                return $this->consultarPrestamosTotalizadosConDetalles($pdo);
+
+            }else{
+                $sql .= " ORDER BY p.Prestamo_Estado Asc";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($concatenarQuery);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            }
+
+
+
+        } catch (PDOException $e) {
+            throw new Exception("Error al buscar el préstamo: " . $e->getMessage());
+            
+        }
+    }
 
     
 

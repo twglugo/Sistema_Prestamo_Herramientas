@@ -27,6 +27,7 @@ switch ($ruta) {
         dashboardUsuario();
         break;
     
+
     case 'usuarios':
         require_once __DIR__ . '/../src/Controlador/UsuarioControlador.php';
         listarUsuarios();
@@ -35,6 +36,11 @@ switch ($ruta) {
         require_once __DIR__ . '/../src/Controlador/UsuarioControlador.php';
         crearUsuarios();
         break;
+    case 'buscar_usuario':
+        require_once __DIR__ . '/../src/Controlador/UsuarioControlador.php';    
+        buscarUsuario();
+        break;
+        
     case 'actualizar_usuario':
         require_once __DIR__ . '/../src/Controlador/UsuarioControlador.php';
         // Si el admin accede, debe pasar la cédula por GET 
@@ -62,6 +68,10 @@ switch ($ruta) {
     case 'actualizar_herramienta':
         require_once __DIR__ . '/../src/Controlador/HerramientasControlador.php';
         actualizarHerramienta();
+        break;
+    case 'buscar_herramienta':
+        require_once __DIR__ . '/../src/Controlador/HerramientasControlador.php';
+        buscarHerramienta();
         break;
     case 'eliminar_herramienta':
         try {
@@ -93,6 +103,10 @@ switch ($ruta) {
         case 'actualizar_prestamo_usuario':
             require_once __DIR__ . '/../src/Controlador/PrestamoControlador.php';
             actualizarPrestamoUsuario();
+            break;
+        case 'buscar_prestamo':
+            require_once __DIR__ . '/../src/Controlador/PrestamoControlador.php';
+            buscarPrestamo();
             break;
 
         case 'devolver_todo':

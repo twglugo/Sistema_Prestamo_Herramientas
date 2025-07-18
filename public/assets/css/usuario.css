@@ -1,0 +1,156 @@
+
+        body { background: #f4f4f4; font-family: Arial, sans-serif; }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px 36px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px #bbb;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px 36px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px #bbb;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 28px;
+        }
+        .user-info {
+            background: #eaf4ff;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 28px;
+            font-size: 17px;
+        }
+        .user-info b { color: #007bff; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-size: 16px;
+            margin: 18px 0;
+        }
+        .devolverTodo{
+            background:#dc3545;
+            color:#fff;
+            border:none;
+            border-radius:5px;
+            padding:6px 14px;
+            font-size:14px;
+            cursor:pointer;
+        }
+        .modificar{
+            background:#17a2b8;
+            color:#fff;
+            border:none;
+            border-radius:5px;
+            padding:6px 14px;
+            font-size:14px;
+            cursor:pointer;
+        }
+            .botones-usuario {
+            display:flex;
+            gap:16px;
+            margin-bottom:24px;
+            justify-content:center;
+        }
+        .modificarPerfil {
+            background:#ffc107;
+            color:#333;
+            border:none;
+            border-radius:6px;
+            padding:10px 22px;
+            font-size:15px;
+            font-weight:bold;
+            cursor:pointer;
+            box-shadow:0 1px 4px #ffc10733;
+        }
+        .pedirPrestado {
+            background:#007bff;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            padding:10px 22px;
+            font-size:15px;
+            font-weight:bold;
+            cursor:pointer;
+            box-shadow:0 1px 4px #007bff33;
+        }
+        .cerrarSesion {
+            background:#dc3545;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            padding:10px 22px;
+            font-size:15px;
+            font-weight:bold;
+            cursor:pointer;
+            box-shadow:0 1px 4px #dc354533;
+        }
+        .botones-prestamos {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-bottom:18px;
+        }
+        .titulo-prestamos {
+            color:#0056b3;
+            font-size:2rem;
+            font-weight:bold;
+        }
+        .buscarHerramienta {
+            background:linear-gradient(90deg,#ff9800 0%,#ffc107 100%);
+            color:#fff;
+            border:none;
+            border-radius:16px;
+            padding:8px 20px;
+            font-size:15px;
+            font-weight:bold;
+            box-shadow:0 1px 4px #ff980033;
+            cursor:pointer;
+            transition:background 0.2s,box-shadow 0.2s,transform 0.1s;
+        }
+        .buscarHerramienta:hover {
+            background:linear-gradient(90deg,#ffc107 0%,#ff9800 100%);
+            box-shadow:0 2px 8px #ffc10744;
+            transform:scale(1.05);
+        }
+        .misPrestamos {
+            background:linear-gradient(90deg,#17a2b8 0%,#00c6ff 100%);
+            color:#fff;
+            border:none;
+            border-radius:16px;
+            padding:8px 20px;
+            font-size:15px;
+            font-weight:bold;
+            box-shadow:0 1px 4px #17a2b833;
+            cursor:pointer;
+            transition:background 0.2s,box-shadow 0.2s,transform 0.1s;
+        }
+        .misPrestamos:hover {
+            background:linear-gradient(90deg,#00c6ff 0%,#17a2b8 100%);
+            box-shadow:0 2px 8px #00c6ff44;
+            transform:scale(1.05);
+        }
+    

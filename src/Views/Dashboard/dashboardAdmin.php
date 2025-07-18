@@ -31,6 +31,25 @@
             box-shadow: 0 2px 8px #21883844;
             transform: scale(1.05);
         }
+        .ref-btn {
+            margin-left: 10px;
+            vertical-align: middle;
+            background: linear-gradient(90deg, #008cffff 0%, #0787ffd5 100%);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 1px 4px #ff980033;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .ref-btn:hover {
+            background: linear-gradient(90deg, #000000ff 0%, #0787ffa4 100%);
+            box-shadow: 0 2px 8px #ffc10744;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -43,7 +62,10 @@
         </div>
         <a href="index.php?ruta=logout" class="action-btn logout">Cerrar sesión</a>
         
-        <h2>Usuarios</h2>
+        <h2 style="display:inline-block;">Usuarios</h2>
+        <a href="index.php?ruta=buscar_usuario"> 
+        <button class="ref-btn" id="btn-ref-usuarios">Buscar Usuario</button>
+        </a>
         <table>
             <tr>
                 <th>Cédula</th>
@@ -54,7 +76,8 @@
                 <th>Actualizar</th>
 
             </tr>
-            <?php foreach ($usuarios as $usuario): ?>
+            <?php $usuariosMostrados = 0; foreach ($usuarios as $usuario): ?>
+                <?php if ($usuariosMostrados++ >= 15) break; ?>
                 <tr>
                     <td><?= htmlspecialchars($usuario['Usuario_Cedula']) ?></td>
                     <td><?= htmlspecialchars($usuario['Usuario_Nombre']) ?></td>
@@ -67,7 +90,10 @@
             <?php endforeach; ?>
         </table>
 
-        <h2>Herramientas</h2>
+        <h2 style="display:inline-block;">Herramientas</h2>
+        <a href="index.php?ruta=buscar_herramienta">     
+        <button class="ref-btn" id="btn-ref-herramientas">Buscar Herramientas</button>
+        </a>
         <table>
             <tr>
                 <th>ID</th>
@@ -77,7 +103,8 @@
                 <th>Disponibles</th>
                 <th>Actualizar</th>
             </tr>
-            <?php foreach ($herramientas as $herramienta): ?>
+            <?php $herramientasMostradas = 0; foreach ($herramientas as $herramienta): ?>
+                <?php if ($herramientasMostradas++ >= 15) break; ?>
                 <tr>
                     <td><?= htmlspecialchars($herramienta['Herramienta_id']) ?></td>
                     <td><?= htmlspecialchars($herramienta['Herramienta_Nombre']) ?></td>
@@ -89,7 +116,10 @@
         </table>
 
 
-        <h2>Préstamos</h2>
+        <h2 style="display:inline-block;">Préstamos</h2>
+        <a href="index.php?ruta=buscar_prestamo">
+        <button class="ref-btn" id="btn-ref-prestamos">Buscar Prestamos</button>
+        </a>
         <table>
             <tr>
                 <th>ID</th>
@@ -100,7 +130,8 @@
                 <th>Estado</th>
                 <th>Actualizar</th>
             </tr>
-            <?php foreach ($prestamos as $prestamo): ?>
+            <?php $prestamosMostrados = 0; foreach ($prestamos as $prestamo): ?>
+                <?php if ($prestamosMostrados++ >= 15) break; ?>
                 <?php 
                     if ($prestamo['Prestamo_Estado'] === 'Activo') {
                         $fechaLabel = 'Fecha Prestada';

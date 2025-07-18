@@ -17,13 +17,15 @@ function login() {
 
         if ($resultado && isset($resultado['Usuario_Cedula'])) {
             session_start();
-            // Unificar nombres de variables de sesión
+            //usuario administrador
             $_SESSION['Usuario_Cedula'] = $resultado['Usuario_Cedula'];
             $_SESSION['Usuario_Rol'] = $resultado['Usuario_Rol'];
-            // Para compatibilidad, puedes dejar las otras si algún otro archivo las usa
+            
+            //usuario cliente
             $_SESSION['usuario'] = $resultado['Usuario_Cedula'];
             $_SESSION['cedula'] = $resultado['Usuario_Cedula'];
             $_SESSION['rol'] = $resultado['Usuario_Rol'];
+            
             if (strtolower($resultado['Usuario_Rol']) === 'admin') {
                 header('Location: index.php?ruta=dashboard_admin');
             } else {

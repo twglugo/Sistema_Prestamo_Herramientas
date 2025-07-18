@@ -236,7 +236,52 @@
     
     
     
-        //Consultar por nombre
+        //filtros 
+
+        function buscarHerramienta($pdo)
+        {
+
+            try {
+                
+                $sql = "SELECT * FROM herramientas WHERE 0=0";
+                $concatenarQuery = [];
+                if (!empty($this->nombre)) {
+                    $sql .= " AND Herramienta_Nombre LIKE :nombre";
+                    $concatenarQuery[':nombre'] = '%' . $this->nombre . '%';
+                }
+                if (!empty($this->descripcion)) {
+                    $sql .= " AND Herramienta_Descrip LIKE :descripcion";
+                    $concatenarQuery[':descripcion'] = '%' . $this->descripcion . '%';
+                }
+                if (!empty($this->cantidadTotal)) {
+                    $sql .= " AND Herramienta_CantidadTotal = :cantidadTotal";
+                    $concatenarQuery[':cantidadTotal'] = $this->cantidadTotal;
+                }
+                if (!empty($this->cantidadDisponible)) {
+                    $sql .= " AND Herramienta_CantidadDisponible = :cantidadDisponible";
+                    $concatenarQuery[':cantidadDisponible'] = $this->cantidadDisponible;
+                }
+                if (empty($concatenarQuery)) {
+                    
+                    return $this->consultarTodasHerramientas($pdo);
+                }
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($concatenarQuery);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+
+
+            } catch (PDOException $e) {
+                throw new Exception("Error al buscar la herramienta: " . $e->getMessage());
+            }
+
+
+
+
+
+
+        }
         
 
         

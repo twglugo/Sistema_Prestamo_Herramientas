@@ -1,0 +1,43 @@
+body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        h1 { text-align: center; color: #007bff; }
+        form { margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        input[type="text"],[type=number], select, input[type="date"] { padding: 7px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 1px 4px #007bff33;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #0056b3 0%, #007bff 100%);
+            box-shadow: 0 2px 8px #007bff44;
+            transform: scale(1.03);
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #007bff; color: #fff; }
+        .action-btn{
+            display: inline-block;
+            background: linear-gradient(90deg, #28a745 0%, #218838 100%);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 1px 4px #28a74533;
+            border: none;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            margin-right: 8px;
+        }
+        .action-cell {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }

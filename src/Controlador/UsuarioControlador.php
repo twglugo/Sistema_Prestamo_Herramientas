@@ -137,3 +137,40 @@ function eliminarUsuarios()
     }
 
 }
+
+
+
+// busquedas - filtros 
+
+
+function buscarUsuario() {
+    global $pdo;
+    $mensaje = null;
+    try {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $cedula = $_POST['cedula'] ?? '';
+            $nombre = $_POST['nombre'] ?? '';
+            $apellido = $_POST['apellido'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $rol = $_POST['rol'] ?? '';
+
+            $usuario = new Usuario($cedula, $nombre, $apellido, $email, $rol);
+            $usuarios = $usuario->buscarUsuario($pdo);
+
+            if ($usuarios) {
+                require_once __DIR__ . '/../Views/Usuarios/filtroUsuario.php';
+            } else {
+
+                $mensaje = "No se encontraron usuarios con ese filtro.";
+                require_once __DIR__ . '/../Views/Usuarios/filtroUsuario.php';
+                
+
+            }
+        } else {
+            require_once __DIR__ . '/../Views/Usuarios/filtroUsuario.php';
+        }
+    } catch (PDOException $e) {
+        $mensaje = "Error al buscar usuarios: " . $e->getMessage();
+        require_once __DIR__ . '/../Views/Usuarios/filtroUsuario.php';
+    }
+}

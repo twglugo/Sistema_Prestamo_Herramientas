@@ -12,89 +12,9 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="assets/css/actualizar.css">
     <title>Modificar Prestamo</title>
-    <style>
-        body { background: #f4f4f4; font-family: Arial, sans-serif; }
-        .form-container {
-            max-width: 480px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px 32px;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px #bbb;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 22px;
-        }
-        label {
-            font-weight: bold;
-            color: #333;
-            display: block;
-            margin-bottom: 6px;
-        }
-        select, input[type="number"], input[type="date"] {
-            width: 100%;
-            padding: 8px 10px;
-            margin-bottom: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            background: #f9f9f9;
-            box-sizing: border-box;
-        }
-        input[readonly] {
-            background: #e9ecef;
-        }
-        .error {
-            color: #d9534f;
-            font-size: 13px;
-            margin-top: -12px;
-            margin-bottom: 10px;
-        }
-        .info-label {
-            font-size: 15px;
-            color: #555;
-            margin-bottom: 10px;
-        }
-        .info-destacada {
-            font-size: 22px;
-            color: #007bff;
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .radio-group {
-            display: flex;
-            gap: 18px;
-            margin-bottom: 18px;
-        }
-        button[type="submit"] {
-            width: 100%;
-            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 0;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 1px 4px #007bff33;
-            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-        }
-        button[type="submit"]:hover:not(:disabled) {
-            background: linear-gradient(90deg, #0056b3 0%, #007bff 100%);
-            box-shadow: 0 2px 8px #007bff44;
-            transform: scale(1.03);
-        }
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
+    
 </head>
 <body>
     <div class="form-container">

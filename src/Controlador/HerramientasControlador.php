@@ -103,3 +103,36 @@ function eliminarHerramienta() {
         exit;
     }
 }
+
+
+function buscarHerramienta() {
+    global $pdo;
+    
+    $mensaje = null;
+    try {
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nombre = $_POST['nombre'] ?? '';
+            $descripcion = $_POST['descripcion'] ?? '';
+            $cantidadStock = $_POST['cantidadStock'] ?? '';
+            $cantidadDisponible = $_POST['cantidadDisponible'] ?? '';
+
+            $herramienta = new Herramienta(null, $nombre, $descripcion, $cantidadStock, $cantidadDisponible);
+            $herramientas = $herramienta->buscarHerramienta($pdo);
+
+            if ($herramientas) {
+                require_once __DIR__ . '/../Views/Herramientas/filtrarHerramienta.php';
+            } else {
+                $mensaje = "No se encontraron herramientas con ese filtro.";
+                require_once __DIR__ . '/../Views/Herramientas/filtrarHerramienta.php';
+            }
+        } else {
+            require_once __DIR__ . '/../Views/Herramientas/filtrarHerramienta.php';
+        }
+    } catch (Throwable $e) {
+           $mensaje = "Error al buscar herramientas: " . $e->getMessage();
+           require_once __DIR__ . '/../Views/Herramientas/filtrarHerramienta.php';
+        
+      
+        } 
+}

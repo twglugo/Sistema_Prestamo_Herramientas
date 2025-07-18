@@ -435,3 +435,95 @@ function actualizarPrestamoUsuario()
     }
 }
 
+
+// filtrar 
+
+    function buscarPrestamo() {
+        global $pdo;
+        $mensaje = null;
+        $prestamoRequerido = [];
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            {
+                
+                if(isset($_POST['estado']) && $_POST['estado'] === 'usuario') {
+                    
+                    $prestamoRequerido['rol'] = $_POST['estado'];
+
+                } 
+                $prestamoRequerido['usuarioCedula'] = $_POST['usuarioCedula'] ?? '';
+                $prestamoRequerido['usuario'] = $_POST['usuario'] ?? '';
+                $prestamoRequerido['herramientaId'] = $_POST['herramienta'] ?? '';
+                $prestamoRequerido['estado'] = $_POST['estado'] ?? '';
+                $prestamoRequerido['cantidadPrestada'] = $_POST['cantidadPrestada'] ?? '';
+                $prestamoRequerido['fechaPrestamo'] = $_POST['fecha_prestamo'] ?? '';
+                $prestamoRequerido['fechaDevolucion'] = $_POST['fecha_devolucion'] ?? '';
+
+                $prestamo = new Prestamo(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                );
+                
+                $prestamos = $prestamo->buscarPrestamo($pdo, $prestamoRequerido);
+
+                if(!$prestamos || count($prestamos) === 0) {
+                    $prestamos = [];
+                    $mensaje = "No se encontraron préstamos con ese filtro.";
+
+                    $herramientaModel = new Herramienta(null, null, null, null, null);
+                    $herramientas = $herramientaModel->consultarTodasHerramientas($pdo);
+                    if(!$herramientas) {
+                        $herramientas = [];
+                        $herramientas[] = ['Herramienta_id' => '', 'Herramienta_Nombre' => 'No hay herramientas registradas'];
+                        require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                    }
+                    else{
+                        require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                    }
+
+                    
+
+                }else
+                {
+                    $herramientaModel = new Herramienta(null, null, null, null, null);
+                    $herramientas = $herramientaModel->consultarTodasHerramientas($pdo);
+                    if(!$herramientas) {
+                        $herramientas = [];
+                        $herramientas[] = ['Herramienta_id' => '', 'Herramienta_Nombre' => 'No hay herramientas registradas'];
+                        require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                    }
+                    else{
+                        require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                    }
+                    
+                }
+
+
+                
+
+
+            }else {
+                $herramientaModel = new Herramienta(null, null, null, null, null);
+                $herramientas = $herramientaModel->consultarTodasHerramientas($pdo);
+                if(!$herramientas) {
+                    $herramientas = [];
+                    $herramientas[] = ['Herramienta_id' => '', 'Herramienta_Nombre' => 'No hay herramientas registradas'];
+                    require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                }
+                else{
+                    require __DIR__ . '/../Views/Prestamos/filtrarPrestamos.php';
+                }
+                
+            }
+            
+            
+        } catch (Exception $e) {
+            throw new Exception("Error al buscar préstamos: " . $e->getMessage());
+
+
+            
+        }
+    }    

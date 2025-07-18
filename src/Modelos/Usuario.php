@@ -161,6 +161,63 @@
             
         }
     
+        //filtros 
+
+
+        public function buscarUsuario($pdo)
+        {
+            try {
+                $sql = "SELECT * FROM usuarios where 0=0"; 
+                $concatenarQuery = [];
+
+                if (!empty($this->cedula)) {
+                    $sql .= " AND Usuario_Cedula = :cedula";
+                    $concatenarQuery[':cedula'] = $this->cedula;
+                }
+
+                if (!empty($this->nombre)) {
+                    $sql .= " AND Usuario_Nombre LIKE :nombre";
+                    $concatenarQuery[':nombre'] = "%" . $this->nombre . "%";
+                }
+
+                if (!empty($this->apellido)) {
+                    $sql .= " AND Usuario_Apellido LIKE :apellido";
+                    $concatenarQuery[':apellido'] = "%" . $this->apellido . "%";
+                }
+
+                if (!empty($this->email)) {
+                    $sql .= " AND Usuario_Email LIKE :email";
+                    $concatenarQuery[':email'] = "%" . $this->email . "%";
+                }
+
+                if (!empty($this->rol)) {
+                    $sql .= " AND Usuario_Rol = :rol";
+                    $concatenarQuery[':rol'] = $this->rol;
+                    
+                }
+
+                if (count($concatenarQuery) === 0) {
+                    
+                    return $this->consultarTodosUsuario($pdo);
+                }
+                     $stmt = $pdo->prepare($sql);
+                     $stmt->execute($concatenarQuery);
+                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+
+               
+                
+            } catch (PDOException $e) {
+                throw new Exception("Error al buscar el usuario: " . $e->getMessage());
+            }
+        }
+
+    
+    
+    
+    
+    
+    
     
     
     }
